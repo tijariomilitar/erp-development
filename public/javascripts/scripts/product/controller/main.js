@@ -1,35 +1,6 @@
 const Product = {}; 
 Product.controller = {};
 
-document.getElementById("product-create-form").addEventListener("submit", async (event) => {
-	event.preventDefault();
-	event.target.elements.namedItem("submit").disabled = true;
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-
-	let product = {
-		id: event.target.elements.namedItem("id").value,
-		code: event.target.elements.namedItem("code").value,
-		name: event.target.elements.namedItem("name").value,
-		color: event.target.elements.namedItem("color").value,
-		size: event.target.elements.namedItem("size").value
-	};
-
-	product = await Product.save(product, "product-create-form");
-	if(!product){ return false };
-
-	document.getElementById("product-filter-form").elements.namedItem("code").value = product.code;
-	document.getElementById("product-filter-form").submit.click();
-
-	event.target.elements.namedItem("id").value = "";
-	event.target.elements.namedItem("code").value = "";
-	event.target.elements.namedItem("name").value = "";
-	event.target.elements.namedItem("color").value = "";
-	event.target.elements.namedItem("size").value = "";
-
-	event.target.elements.namedItem("submit").disabled = false;
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
-});
-
 Product.controller.show = async (product_id) => {
 	document.getElementById('ajax-loader').style.visibility = 'visible';
 	
@@ -60,7 +31,6 @@ Product.controller.edit = async (id) => {
 
 document.getElementById("product-filter-form").addEventListener("submit", async (event) => {
 	event.preventDefault();
-	event.target.elements.namedItem("submit").disabled = true;
 	document.getElementById('ajax-loader').style.visibility = 'visible';
 
 	let product = {
@@ -74,9 +44,10 @@ document.getElementById("product-filter-form").addEventListener("submit", async 
 	const pagination = { pageSize: 10, page: 0};
 	if(event.target.elements.namedItem("location").value == "product-manage"){
 		$(() => { lib.carousel.execute("product-manage-filter-box", Product.view.manage.filter, products, pagination); });
+	} else if(event.target.elements.namedItem("location").value == "production-product"){
+		Product.view.fillSelect(products, "production-product-select");
 	};
 
-	document.getElementById('product-filter-form').elements.namedItem("submit").disabled = false;
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 });
 
