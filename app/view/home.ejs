@@ -1,0 +1,57 @@
+<html>
+	<head>
+        <% include ./partials/head %>
+	</head>
+	<body>
+		<% include ./partials/header %>
+        <% include ./partials/nav %>
+		<section>
+            <div class="container">
+                <div class="box-1">
+                	<h2>Catálogo de produtos</h2>
+					<form id="product-filter-form" class="box-1">
+						<input type="hidden" name="location" value="productCatalog">
+						<input type="text" name="code" class="btn-generic-small" style="width:10%" placeholder="Cód" autocomplete="off">
+						<input type="text" name="name" class="input-search" placeholder="Nome" autocomplete="off">
+						<select name="color" id="product-catalog-color" class="select-search-color" autocomplete="off">
+							<option value="">Cor</option>
+							<% for(i in productColors){ %>
+								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
+							<% } %>
+						</select>
+						<input type="submit" class="btn-search-submit" value="Filtrar">
+					</form>
+				</div>
+				<div id="product-catalog-filter-div" class="box-2" style="display:none">
+					<table class="tbl-info box-1" id="product-catalog-filter-tbl"></table>
+					<br>
+					<button id="productCatalogPrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
+                    <span id="productCatalogPageNumber"></span>
+                    <button id="productCatalogNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
+				</div>
+				<div class="box-2" id="product-show-box" style="display:none;">
+					<table class="tbl-info box-1" id="product-show-tbl">
+						<tr>
+							<td>Cód</td>
+							<td>Nome</td>
+							<td>Tamanho</td>
+							<td>Cor</td>
+						</tr>
+						<tbody id="product-show-tbody"></tbody>
+					</table>
+					<div class="box-1" id="product-image-show"></div>
+					<button id="imagePrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
+                    <span id="imagePageNumber"></span>
+                    <button id="imageNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
+				</div>
+			</div>
+        </section>
+        <div id="ajax-loader" class="ajax-loader">
+			<div class="loader"></div>
+		</div>
+	</body>
+	<footer>
+        <% include ./partials/footer %>
+        <% include ./product/partial %>
+	</footer>
+</html>

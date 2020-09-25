@@ -1,0 +1,121 @@
+<html>
+	<head>
+        <% include ./../partials/head %>
+	</head>
+	<body>
+		<% include ./../partials/header %>
+        <% include ./../partials/nav %>
+		<section>
+			<div class="container">
+				<div class="box-2">
+					<h3 class="title-soft underline">Novo Produto</h3>
+					<form id="product-create-form" class="box-1">
+						<input type="hidden" name="id" value="0" autocomplete="off">
+						<input type="number" name="code" class="btn-generic-big" placeholder="Cód do produto" min="1" max="9999" autocomplete="off">
+						<input type="text" name="name" class="btn-generic-big" placeholder="Nome do produto" autocomplete="off" maxlength="30">
+						<br>
+						<select name="color" class="btn-generic-big" autocomplete="off">
+							<option value="">Cor</option>
+							<% for(i in productColors){ %>
+								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
+							<% } %>
+						</select>
+						<select name="size" class="btn-generic-big" autocomplete="off">
+							<option value="">Tamanho</option>
+							<option value="ST">Sem tamanho</option>
+							<option value="PP">PP</option>
+							<option value="P">P</option>
+							<option value="M">M</option>
+							<option value="G">G</option>
+							<option value="GG">GG</option>
+						</select>
+						<br>
+						<input type="submit" name="submit" class="btn-submit" value="Cadastrar">
+					</form>
+				</div>
+
+				<div class="box-2">
+					<h3 class="title-soft underline">Buscar Produtos</h3>
+					<form id="product-filter-form" class="box-1">
+						<input type="hidden" name="location" value="product-manage" autocomplete="off">
+						<input type="text" name="name" class="btn-generic-big" placeholder="Nome" autocomplete="off"><br>
+						<input type="number" name="code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
+						<select name="color" class="btn-generic-small" autocomplete="off">
+							<option value="">Cor</option>
+							<% for(i in productColors){ %>
+								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
+							<% } %>
+						</select><br>
+						<input type="submit" name="submit" class="btn-submit" value="Filtrar">
+					</form>
+
+					<div id="product-manage-filter-box" class="box-1" style="display:none">
+						<table class="tbl-info width-fill" id="product-manage-filter-table"></table>
+						<br>
+        				<% include ./../partials/carousel %>
+					</div>
+				</div>
+
+				<div id="product-manage-info-box" class="box-1" style="display:none">
+					<h3 id="product-manage-info-title" class="Army underline"></h3>
+					<table id="product-manage-info-table" class="tbl-info width-fill"></table>
+				</div>
+
+				<div id="product-manage-image-box" class="box-1" style="display:none">
+					<button class="btn-display-box" onclick="lib.displayDiv('product-manage-image-div', this, '⇓ Mostrar Imagem ⇓', '⇑ Esconder Imagem ⇑');">⇑ Esconder Imagem ⇑</button>
+					<div id="product-manage-image-div" class="box-1" style="display:block">
+						<img id="product-manage-image-img" class="image-box" src="">
+						<div class="box-1">
+							<button id="product-manage-image-remove-button" class="btn-delete">Excluir Imagem</button>
+						</div>
+						<% include ./../partials/carousel %>
+					</div>
+				</div>
+
+				<div id="product-manage-menu-box" class="box-1" style="display:none">
+					<button class="btn-display-box" onclick="lib.displayDiv('product-manage-menu-div', this, '⇓ Mostrar Menu ⇓', '⇑ Esconder Menu ⇑');">⇓ Mostrar Menu ⇓</button>
+					<div class="box-1" id="product-manage-menu-div" style="display:none"></div>
+				</div>
+
+				<div id="product-feedstock-add-box" class="box-1" style="display:none">
+					<form id="feedstock-filter-form" class="box-1">
+						<fieldset class="fieldset-generic">
+							<legend>Filtrar Matérias-Prima</legend>
+							<input type="hidden" name="location" value="product-feedstock-add">
+							<input type="text" name="feedstock_code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
+							<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
+							<select name="color" class="btn-generic-small">
+								<option value="">Cor</option>
+								<% for(i in feedstockColors){ %>
+									<option value="<%= feedstockColors[i].shortcut %>"><%= feedstockColors[i].name %></option>
+								<% } %>
+							</select>
+							<input type="submit" class="btn-submit" value="Filtrar">
+							</fieldset>
+					</form>
+    				<% include ./feedstock/form/add %>
+
+					<button class="btn-display-box" onclick="lib.displayDiv('product-feedstock-category-create-form', this, '⇓ Nova Categoria ⇓', '⇑ Esconder Formulário ⇑')">⇓ Nova Categoria ⇓</button>
+	    			<% include ./feedstock/form/category-add %>
+				</div>
+
+				<div class="box-1" id="product-feedstock-box" style="display:none">
+					<div id="product-feedstock-list-box"></div>
+    				<% include ./../partials/carousel %>
+				</div>
+			</div>
+		</section>
+		<div id="ajax-loader" class="ajax-loader">
+			<div class="loader"></div>
+		</div>
+	</body>
+	<footer>
+        <% include ./../partials/footer %>
+        <% include ./partial %>
+        <script src="/javascripts/scripts/product/view/manage.js"></script>
+        <!-- <script src="/javascripts/scripts/product/feedstock.js"></script> -->
+
+        <script src="/javascripts/scripts/feedstock/main.js"></script>
+        <script src="/javascripts/scripts/feedstock/tables.js"></script>
+	</footer>
+</html>
