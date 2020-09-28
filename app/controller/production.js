@@ -53,12 +53,55 @@ const productionController = {
 			feedstocks: []
 		};
 
-		for(i in production.products){
-			let product_feedstocks = await Product.feedstock.list(production.products[i].id);
-			production.products[i].feedstocks.push(product_feedstocks);
-		};
+		// let feedstocks = ;
 
-		console.log(production);
+		// for(i in production.products){
+		// 	let product_feedstocks = await Product.feedstock.list(production.products[i].id);
+		// 	production.products[i].feedstocks = product_feedstocks.reduce((feedstocks, product) => {
+		// 		console.log();
+		// 	}, production.products[i].feedstocks);
+		// };
+
+		// production.feedstocks = production_feedstock_list.reduce((production_feedstocks, feedstock_list) => {
+		// 	for(i in production_feedstocks){
+		// 		if(production_feedstocks[i].feedstock_id == feedstock_list.feedstock_id){
+		// 			production_feedstocks[i].amount += feedstock_list.amount;
+		// 			return production_feedstocks;
+		// 		};
+		// 	};
+		// 	production_feedstocks.push(feedstock_list);
+		// 	return production_feedstocks;
+		// }, production.feedstocks);
+
+		// production.feedstocks = production.products.reduce((feedstocks, product) => {
+		// 	for(i in product.feedstocks){
+		// 		console.log(i);
+		// 		for(j in feedstocks){
+		// 			if(feedstocks[j].feedstock_id == product.feedstocks[i].feedstock_id){
+		// 				if(product.feedstocks[i].uom == "cm"){
+		// 					feedstocks[j].total_amount += (product.feedstocks[i].amount * product.feedstocks[i].measure) * product.amount;
+		// 					console.log('--1--')
+		// 					return feedstocks;
+		// 				} else if(product.feedstocks[i].uom == "un"){
+		// 					feedstocks[j].total_amount += (product.feedstocks[i].amount) * product.amount;
+		// 					console.log('--2--')
+		// 					return feedstocks;
+		// 				};
+		// 			};
+		// 		};
+
+		// 		let feedstock = product.feedstocks[i];
+		// 		if(product.feedstocks[i].uom == "cm"){
+		// 			feedstock.total_amount = (product.feedstocks[i].amount * product.feedstocks[i].measure) * product.amount;
+		// 		} else if(product.feedstocks[i].uom == "un"){
+		// 			feedstock.total_amount = (product.feedstocks[i].amount) * product.amount;
+		// 		};
+
+		// 		feedstocks.push(feedstock);
+		// 		console.log('--3--')
+		// 	};
+		// 	return feedstocks;
+		// }, production.feedstocks);
 
 		return res.send({ production });
 
