@@ -1,3 +1,4 @@
+// External Product API
 const Product = {};
 
 Product.filter = document.getElementById("product-filter-production-kart");
@@ -23,5 +24,5 @@ if(Product.filter){
 	});
 };
 
-// Production Object
-Production.product = {};
+// Production environment
+Production.product = { controller: {} };

@@ -49,9 +49,13 @@ const productionController = {
 		};
 
 		const production = {
-			storage_id: req.body.storage_id,
-			products: JSON.parse(req.body.products),
+			products: req.body.products,
 			feedstocks: []
+		};
+
+		for(i in production.products){
+			let product_feedstocks = await Product.feedstock.list(production.products[i].id);
+			production.products[i].feedstocks.push(product_feedstocks);
 		};
 
 		console.log(production);
