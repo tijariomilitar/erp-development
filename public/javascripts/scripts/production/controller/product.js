@@ -1,9 +1,9 @@
 // External Product API
-const Product = {};
+Product.controller = {};
 
-Product.filter = document.getElementById("product-filter-production-kart");
-if(Product.filter){
-	Product.filter.addEventListener("submit", async (event) => {
+Product.controller.filter = document.getElementById("product-filter-production-kart");
+if(Product.controller.filter){
+	Product.controller.filter.addEventListener("submit", async (event) => {
 		event.preventDefault();
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 
@@ -13,7 +13,7 @@ if(Product.filter){
 			color: event.target.elements.namedItem("color").value
 		};
 
-		let products = await Product.filter(product.code, product.name, product.color);
+		let products = await Product.filter(product);
 
 		const pagination = { pageSize: 10, page: 0};
 		if(event.target.elements.namedItem("location").value == "production-kart"){

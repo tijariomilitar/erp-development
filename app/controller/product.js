@@ -21,6 +21,30 @@ const productController = {
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 		};
 	},
+	molle: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+			return res.redirect("/");
+		};
+
+		try{
+			res.render('product/molle', { user: req.user });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+		};
+	},
+	webgl: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+			return res.redirect("/");
+		};
+
+		try{
+			res.render('product/webgl', { user: req.user });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+		};
+	},
 	manage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'man','COR-GER'])){
 			return res.redirect("/");
@@ -30,6 +54,28 @@ const productController = {
 			const feedstockColors = await Feedstock.colorList();
 			const productColors = await Product.colorList();
 			res.render('product/manage', { productColors, feedstockColors, user: req.user });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+		};
+	},
+	datasheet: async (req, res) => {
+		// if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+		// 	return res.redirect("/");
+		// };
+
+		let product = await Product.findById(req.params.product_id);
+		product = { ...product[0] };
+		product.images = await Product.image.list(req.params.product_id);
+		product.feedstocks = await Product.feedstock.list(req.params.product_id);
+		for(i in product.feedstocks){
+			let product_feedstock = await Feedstock.findById(product.feedstocks[i].feedstock_id);
+			product.feedstocks[i].feedstock_info = product_feedstock[0].code +" | "+product_feedstock[0].name +" | "+product_feedstock[0].color;
+		};
+		product.feedstock_categories = await Product.feedstock.category.list(req.params.product_id);
+
+		try{
+			res.render('product/datasheet', { user: req.user, product });
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
@@ -45,13 +91,15 @@ const productController = {
 			code: parseInt(req.body.code),
 			name: req.body.name,
 			color: req.body.color,
-			size: req.body.size
+			size: req.body.size,
+			brand: req.body.brand
 		};
 
 		if(!product.code || product.code < 1 || product.code > 9999){return res.send({ msg: 'Código de produto inválido.' })};
 		if(!product.name || product.name.length > 30){return res.send({ msg: 'Preencha o nome do produto.' })};
 		if(!product.color || product.color.length > 10){return res.send({ msg: 'Preencha a cor do produto.' })};
 		if(!product.size || product.size.length > 3){return res.send({ msg: 'Preencha o tamanho do produto.' })};
+		if(!product.brand.length || product.brand.length < 3 || product.brand.length > 45){ return res.send({ msg: 'Preencha a marca do produto.' })};
 
 		try {
 			if(!product.id){
@@ -163,6 +211,11 @@ const productController = {
 		if(req.query.color){
 			params.push("color");
 			values.push(req.query.color);
+		};
+
+		if(req.query.brand){
+			params.push("brand");
+			values.push(req.query.brand);
 		};
 
 		try {
@@ -480,9 +533,9 @@ const productController = {
 		};
 	},
 	colorList: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','n/a'])){
-			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-		};
+		// if(!await userController.verifyAccess(req, res, ['adm','man','n/a'])){
+		// 	return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		// };
 	
 		try {
 			const colors = await Product.colorList();

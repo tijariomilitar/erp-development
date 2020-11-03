@@ -6,6 +6,7 @@ router.get('/index', productController.index);
 router.get('/manage', productController.manage);
 
 router.get('/', productController.list);
+router.get('/datasheet/:product_id', productController.datasheet);
 router.post('/save', productController.save);
 router.get('/id/:id', productController.findById);
 router.get('/code/:code', productController.findByCode);
@@ -22,6 +23,8 @@ router.delete('/feedstock/remove', productController.feedstock.remove);
 router.get('/feedstock/list/product_id/:product_id', productController.feedstock.list);
 router.post('/feedstock/category/save', productController.feedstock.category.save);
 router.get('/feedstock/category/list/product_id/:product_id', productController.feedstock.category.list);
+router.get('/molle', productController.molle);
+router.get('/webgl', productController.webgl);
 
 router.post('/categorySave', productController.categorySave);
 router.get('/categoryList', productController.categoryList);

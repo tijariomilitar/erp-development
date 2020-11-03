@@ -29,11 +29,15 @@
 							<option value="G">G</option>
 							<option value="GG">GG</option>
 						</select>
+						<select name="brand" class="btn-generic-big" autocomplete="off">
+							<option value="">Marca do Produto</option>
+							<option value="Sem marca">Sem marca</option>
+							<option value="J.A Rio Militar">J.A Rio Militar</option>
+						</select>
 						<br>
 						<input type="submit" name="submit" class="btn-submit" value="Cadastrar">
 					</form>
 				</div>
-
 				<div class="box-2">
 					<h3 class="title-soft underline">Buscar Produtos</h3>
 					<form id="product-filter-form" class="box-1">
@@ -45,6 +49,11 @@
 							<% for(i in productColors){ %>
 								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
 							<% } %>
+						</select><br>
+						<select name="brand" class="btn-generic-big" autocomplete="off">
+							<option value="">Marca do Produto</option>
+							<option value="Sem marca">Sem marca</option>
+							<option value="J.A Rio Militar">J.A Rio Militar</option>
 						</select><br>
 						<input type="submit" name="submit" class="btn-submit" value="Filtrar">
 					</form>
@@ -112,6 +121,7 @@
 	<footer>
         <% include ./../partials/footer %>
         <% include ./partial %>
+        <script src="/javascripts/scripts/product/controller/manage.js"></script>
         <script src="/javascripts/scripts/product/view/manage.js"></script>
         <!-- <script src="/javascripts/scripts/product/feedstock.js"></script> -->
 
