@@ -99,11 +99,7 @@ const productController = {
 		if(!product.name || product.name.length > 30){return res.send({ msg: 'Preencha o nome do produto.' })};
 		if(!product.color || product.color.length > 10){return res.send({ msg: 'Preencha a cor do produto.' })};
 		if(!product.size || product.size.length > 3){return res.send({ msg: 'Preencha o tamanho do produto.' })};
-<<<<<<< HEAD
 		if(!product.brand.length || product.brand.length < 3 || product.brand.length > 45){ return res.send({ msg: 'Preencha a marca do produto.' })};
-=======
-		if(!product.brand.length || product.brand.length < 3 || product.brand.length > 45){return res.send({ msg: 'Preencha a marca do produto.' })};
->>>>>>> 190ebb0ca4e9abc67f2cf498c6fce6b3efb720a8
 
 		try {
 			if(!product.id){
