@@ -62,8 +62,9 @@ const financialController = {
 		};
 
 		Financial.incomeSave(income)
-			.then(() => {
-				res.send({ done: "Receita cadastrada com sucesso!" });
+			.then((response) => {
+				income.id = response.insertId;
+				res.send({ done: "Receita cadastrada com sucesso!", income });
 			})
 			.catch(err => {
 				console.log(err);

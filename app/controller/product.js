@@ -64,9 +64,9 @@ const productController = {
 		// 	return res.redirect("/");
 		// };
 
-		let product = await Product.findById(req.params.product_id);
+		let product = await Product.findByCode(req.params.product_code);
 		product = { ...product[0] };
-		product.images = await Product.image.list(req.params.product_id);
+		product.images = await Product.image.list(product.id);
 		
 		try{
 			res.render('product/show', { product });
@@ -80,15 +80,15 @@ const productController = {
 		// 	return res.redirect("/");
 		// };
 
-		let product = await Product.findById(req.params.product_id);
+		let product = await Product.findByCode(req.params.product_code);
 		product = { ...product[0] };
-		product.images = await Product.image.list(req.params.product_id);
-		product.feedstocks = await Product.feedstock.list(req.params.product_id);
+		product.images = await Product.image.list(product.id);
+		product.feedstocks = await Product.feedstock.list(product.id);
 		for(i in product.feedstocks){
 			let product_feedstock = await Feedstock.findById(product.feedstocks[i].feedstock_id);
 			product.feedstocks[i].feedstock_info = product_feedstock[0].code +" | "+product_feedstock[0].name +" | "+product_feedstock[0].color;
 		};
-		product.feedstock_categories = await Product.feedstock.category.list(req.params.product_id);
+		product.feedstock_categories = await Product.feedstock.category.list(product.id);
 
 		try{
 			res.render('product/datasheet', { user: req.user, product });
@@ -119,25 +119,20 @@ const productController = {
 
 		try {
 			if(!product.id){
-				var row = await Product.findByCode(product.code);
-				if(row.length){return res.send({ msg: 'Este código de produto já está cadastrado.' })};
-				
-				var row = await Product.save(product);
-				let newProduct = await Product.findById(row.insertId);
+				let product_duplicity = await Product.findByCode(product.code);
+				if(product_duplicity.length){ return res.send({ msg: 'Este código de produto já está cadastrado.' })};
 
-				res.send({ done: 'Produto cadastrado com sucesso!', product: newProduct });
+				let saved_product_packet = await Product.save(product);
+				product.id = saved_product_packet.insertId;
+
+				res.send({ done: 'Produto cadastrado com sucesso!', product });
 			} else {
-				var row = await Product.findByCode(product.code);
-				if(row.length){
-					if(row[0].id != product.id){
-						return res.send({ msg: 'Este código de produto já está cadastrado.' });
-					};
-				};
+				let product_duplicity = await Product.findByCode(product.code);
+				if(product_duplicity.length){ if(product_duplicity[0].id != product.id){ return res.send({ msg: 'Este código de produto já está cadastrado.' }); }; };
 				
 				await Product.update(product);
-				let updatedProduct = await Product.findById(product.id);
 
-				res.send({ done: 'Produto atualizado com sucesso!', product: updatedProduct });
+				res.send({ done: 'Produto atualizado com sucesso!', product });
 			};
 		} catch (err) {
 			console.log(err);

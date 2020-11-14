@@ -16,8 +16,8 @@ if(Product.controller.manage.create){
 			brand: event.target.elements.namedItem("brand").value
 		};
 
-		product = await Product.save(product, "product-create-form");
-		if(!product){ return false };
+		product = await Product.save(product);
+		if(!product){ event.target.elements.namedItem("submit").disabled = false; return false; };
 
 		document.getElementById("product-filter-form").elements.namedItem("code").value = product.code;
 		document.getElementById("product-filter-form").submit.click();

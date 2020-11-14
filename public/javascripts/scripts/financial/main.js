@@ -1,3 +1,5 @@
+const Financial = {};
+
 $(function(){
 	$("#balance-report-form").on('submit', (event) => {
 		event.preventDefault();
@@ -41,4 +43,3 @@ function displayFinancialForms(form, btn){
 		btn.innerHTML = "Mostrar &dArr;&dArr;";
 	};
 };
-
