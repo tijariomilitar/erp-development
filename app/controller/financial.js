@@ -78,7 +78,7 @@ const financialController = {
 
 		Financial.incomeFindById(req.params.id)
 			.then(income => {
-				res.send(income);
+				res.send({ income });
 			})
 			.catch(err => {
 				console.log(err);
@@ -93,27 +93,27 @@ const financialController = {
 		let params = [];
 		let values = [];
 
-		if(req.body.income_periodStart && req.body.income_periodEnd){
-			var periodStart = req.body.income_periodStart;
-			var periodEnd = req.body.income_periodEnd;
+		if(req.query.periodStart && req.query.periodEnd){
+			var periodStart = req.query.periodStart;
+			var periodEnd = req.query.periodEnd;
 		} else {
 			var periodStart = "";
 			var periodEnd = "";
 		};
 
-		if(parseInt(req.body.income_category)){
+		if(parseInt(req.query.category_id)){
 			params.push("category_id");
-			values.push(req.body.income_category);
+			values.push(req.query.category_id);
 		};
 
-		if(parseInt(req.body.income_origin)){
+		if(parseInt(req.query.origin_id)){
 			params.push("origin_id");
-			values.push(req.body.income_origin);
+			values.push(req.query.origin_id);
 		};
 
 		Financial.incomeFilter(periodStart, periodEnd, params, values)
 			.then(incomes => {
-				res.send(incomes);
+				res.send({ incomes });
 			})
 			.catch(err => {
 				console.log(err);

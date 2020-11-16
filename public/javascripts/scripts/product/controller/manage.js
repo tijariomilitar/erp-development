@@ -64,8 +64,6 @@ Product.controller.manage.delete = async (id) => {
 };
 
 Product.controller.manage.show = async (product_id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-
 	document.getElementById("product-feedstock-add-form").elements.namedItem("id").value = "";
 	document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_id").disabled = false;
 	
@@ -76,7 +74,9 @@ Product.controller.manage.show = async (product_id) => {
 	document.getElementById("product-feedstock-box").style.display = "none";
 	document.getElementById("product-feedstock-add-box").style.display = "none";
 
+	document.getElementById('ajax-loader').style.visibility = 'visible';
 	let product = await Product.findById(product_id);
+	document.getElementById('ajax-loader').style.visibility = 'hidden';
 	if(!product){ return false };
 
 	Product.view.manage.menu(product);
@@ -85,5 +85,4 @@ Product.controller.manage.show = async (product_id) => {
 	const pagination = { pageSize: 1, page: 0 };
 	$(() => { lib.carousel.execute("product-manage-image-div", Product.view.manage.image.show, product.images, pagination); });
 
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
 };

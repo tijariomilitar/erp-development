@@ -23,8 +23,6 @@ if(Product.controller.filter){
 		event.preventDefault();
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 
-		event.target.elements.namedItem("brand");
-
 		let product = {
 			name: event.target.elements.namedItem("name").value,
 			code: event.target.elements.namedItem("code").value,

@@ -51,8 +51,33 @@ if(Financial.income.controller.create){
 Financial.income.controller.filter = document.getElementById("financial-income-filter-form");
 if(Financial.income.controller.filter){
 	Financial.income.controller.filter.addEventListener("submit", async (event) => {
+		event.preventDefault();
 
+		let income = {
+			periodStart: event.target.elements.namedItem("periodStart").value,
+			periodEnd: event.target.elements.namedItem("periodEnd").value,
+			category_id: event.target.elements.namedItem("category_id").value,
+			origin_id: event.target.elements.namedItem("origin_id").value
+		};
+
+		document.getElementById("ajax-loader").style.visibility = "visible";
+		let incomes = await Financial.income.filter(income);
+		document.getElementById("ajax-loader").style.visibility = "hidden";
+
+		const pagination = { pageSize: 10, page: 0};
+		$(() => { lib.carousel.execute("financial-income-filter-box", Financial.income.view.filter, incomes, pagination); });
 	});
+};
+
+Financial.income.controller.show = async (income_id) => {
+	document.getElementById("ajax-loader").style.visibility = "visible";
+	let income = await Financial.income.findById(income_id);
+	document.getElementById("ajax-loader").style.visibility = "hidden";
+	if(!income){ return false};
+
+	console.log(income);
+
+	Financial.income.view.show(income);
 };
 
 // $("#financial-income-report-form").on('submit', (event) => {

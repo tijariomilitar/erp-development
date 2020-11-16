@@ -14,7 +14,7 @@ router.post('/balance', financialController.balance);
 router.get('/income', financialController.income);
 router.post('/income/save', financialController.incomeSave);
 router.get('/income/id/:id', financialController.incomeFindById);
-router.post('/income/filter', financialController.incomeFilter);
+router.get('/income/filter', financialController.incomeFilter);
 router.post('/incomecategory/save', financialController.incomeCategorySave);
 router.get('/incomecategory/filter', financialController.incomeCategoryFilter);
 router.get('/incomecategory/list', financialController.incomeCategoryList);
