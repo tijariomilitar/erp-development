@@ -43,3 +43,4 @@ function displayFinancialForms(form, btn){
 		btn.innerHTML = "Mostrar &dArr;&dArr;";
 	};
 };
+

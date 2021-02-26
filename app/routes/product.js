@@ -26,6 +26,22 @@ router.delete('/feedstock/remove', productController.feedstock.remove);
 router.get('/feedstock/list/product_id/:product_id', productController.feedstock.list);
 router.post('/feedstock/category/save', productController.feedstock.category.save);
 router.get('/feedstock/category/list/product_id/:product_id', productController.feedstock.category.list);
+
+router.get('/price', productController.price.index);
+router.post('/price/find', productController.price.find);
+router.post('/price/update', productController.price.update);
+router.post('/price/category/save', productController.price.category.save);
+router.get('/price/category/filter', productController.price.category.filter);
+router.get('/price/category/id/:id', productController.price.category.findById);
+router.delete('/price/category/delete', productController.price.category.delete);
+
+router.get('/package', productController.package.index);
+router.post('/package/save', productController.package.save);
+router.get('/package/filter', productController.package.filter);
+router.get('/package/id/:id', productController.package.findById);
+router.delete('/package/delete', productController.package.delete);
+router.post('/package/product/update', productController.package.product.update);
+
 router.get('/molle', productController.molle);
 router.get('/webgl', productController.webgl);
 

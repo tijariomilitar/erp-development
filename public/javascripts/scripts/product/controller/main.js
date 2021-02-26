@@ -2,8 +2,8 @@ Product.controller = {};
 
 Product.controller.show = async (product_id) => {
 	document.getElementById('ajax-loader').style.visibility = 'visible';
-	
 	let product = await Product.findById(product_id);
+	document.getElementById('ajax-loader').style.visibility = 'hidden';
 	if(!product){ return false };
 
 	document.getElementById("product-feedstock-box").style.display = "none";
@@ -13,8 +13,6 @@ Product.controller.show = async (product_id) => {
 	
 	const pagination = { pageSize: 1, page: 0 };
 	$(() => { lib.carousel.execute("product-image-box", Product.view.image.show, product.images, pagination); });
-	
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
 };
 
 Product.controller.filter = document.getElementById("product-filter-form");
@@ -34,7 +32,7 @@ if(Product.controller.filter){
 
 		const pagination = { pageSize: 10, page: 0};
 		if(event.target.elements.namedItem("location").value == "product-manage"){
-			$(() => { lib.carousel.execute("product-manage-filter-box", Product.view.manage.filter, products, pagination); });
+			(function(){ lib.carousel.execute("product-manage-filter-box", Product.view.manage.filter, products, pagination); }());
 		} else if(event.target.elements.namedItem("location").value == "production-product-kart"){
 			Product.view.fillSelect(products, document.getElementById("production-product-kart-form").elements.namedItem("product_id"));
 		};

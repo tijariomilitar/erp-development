@@ -72,9 +72,14 @@ Recebe a solicitação do Controller 'view/product/index' (view)
 
 ---------------------------------------------------
 
-Features to implement/update/rework/rewrite
+Novas funcionalidades a implementar - 
 
-rework financial front-end
-rework financial model
-rework financial controller
-rework financial routes
+Finish product manage functions
+
+Create Production requests
+	Create production products amount controller by status
+
+fix feedstock create and edit
+
+Rework function to verify access;
+Financial filter by user;

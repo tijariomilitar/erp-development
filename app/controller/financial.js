@@ -62,9 +62,8 @@ const financialController = {
 		};
 
 		Financial.incomeSave(income)
-			.then((response) => {
-				income.id = response.insertId;
-				res.send({ done: "Receita cadastrada com sucesso!", income });
+			.then(() => {
+				res.send({ done: "Receita cadastrada com sucesso!" });
 			})
 			.catch(err => {
 				console.log(err);
@@ -78,7 +77,7 @@ const financialController = {
 
 		Financial.incomeFindById(req.params.id)
 			.then(income => {
-				res.send({ income });
+				res.send(income);
 			})
 			.catch(err => {
 				console.log(err);
@@ -93,27 +92,27 @@ const financialController = {
 		let params = [];
 		let values = [];
 
-		if(req.query.periodStart && req.query.periodEnd){
-			var periodStart = req.query.periodStart;
-			var periodEnd = req.query.periodEnd;
+		if(req.body.income_periodStart && req.body.income_periodEnd){
+			var periodStart = req.body.income_periodStart;
+			var periodEnd = req.body.income_periodEnd;
 		} else {
 			var periodStart = "";
 			var periodEnd = "";
 		};
 
-		if(parseInt(req.query.category_id)){
+		if(parseInt(req.body.income_category)){
 			params.push("category_id");
-			values.push(req.query.category_id);
+			values.push(req.body.income_category);
 		};
 
-		if(parseInt(req.query.origin_id)){
+		if(parseInt(req.body.income_origin)){
 			params.push("origin_id");
-			values.push(req.query.origin_id);
+			values.push(req.body.income_origin);
 		};
 
 		Financial.incomeFilter(periodStart, periodEnd, params, values)
 			.then(incomes => {
-				res.send({ incomes });
+				res.send(incomes);
 			})
 			.catch(err => {
 				console.log(err);
@@ -344,6 +343,19 @@ const financialController = {
 				console.log(err);
 				res.send({ msg: "Ocorreu um erro ao filtrar as receitas, favor contatar o suporte" });
 			});
+	},
+	outcomeDelete: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm', 'fin'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		try {
+			await Financial.outcomeDelete(req.query.id);
+			res.send({ done: 'Saída excluída com sucesso!' });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao excluir a saída, favor entrar em contato com o suporte." });
+		};
 	},
 	outcomeCategorySave: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'fin'])){

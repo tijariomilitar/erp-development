@@ -1,0 +1,49 @@
+<html>
+	<head>
+        <% include ./../partials/head %>
+	</head>
+	<body>
+		<% include ./../partials/header %>
+        <% include ./../partials/nav %>
+		<section>
+			<div class="container">
+				<div class="box two container ground padding-10 margin-top-10">
+					<div class="underline center">Nova tabela</div>
+					<form id="product-price-category-create-form" class="box one container padding-10">
+						<input type="hidden" name="id">
+						<input type="text" name="name" class="box three-fourths input-generic margin-top-5 center" placeholder="Nome da tabela" autocomplete="off">
+						<input type="submit" name="submit" class="box four submit-generic margin-top-5" value="Cadastrar">
+					</form>
+				</div>
+				
+				<div id="product-price-category-filter-box" class="box two container ground padding-10 margin-top-10">
+                    <div class="underline center">Buscar Tabelas</div>
+                    <form id="product-price-category-filter-form" class="box one container padding-10">
+                        <input type="number" name="id" class="box six input-generic margin-top-5 center" placeholder="Código" min="1" max="9999" autocomplete="off">
+                        <input type="text" name="name" class="box two-thirds input-generic margin-top-5 center" placeholder="Nome da categoria" autocomplete="off">
+                        <input type="submit" name="submit" class="box six submit-generic center margin-top-5 bold" value="Buscar">
+                    </form>
+                    <div id="product-price-category-filter-div" class="box one container ground padding-5"></div>
+                    <% include ./../partials/carousel %>
+                </div>
+
+                <div id="product-price-category-show-box" class="box one container ground padding-10 margin-top-10" style="display:none">
+                	<input type="hidden" id="product-price-category-show-id">
+                	<div id="product-price-category-show-info" class="box one container border padding-5"></div>
+                	<div id="product-price-category-show-div" class="box one container border padding-5 margin-top-5"></div>
+                    <!-- <% include ./../partials/carousel %> -->
+                </div>
+			</div>
+		</section>
+		<div id="ajax-loader" class="ajax-loader">
+			<div class="loader"></div>
+		</div>
+	</body>
+	<footer>
+        <% include ./../partials/footer %>
+        <% include ./partial %>
+        <script src="/javascripts/scripts/product/model/price.js"></script>
+        <script src="/javascripts/scripts/product/view/price.js"></script>
+        <script src="/javascripts/scripts/product/controller/price.js"></script>
+	</footer>
+</html>

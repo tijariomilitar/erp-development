@@ -7,12 +7,13 @@
 			<div onclick="window.location.href='/'" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
 			<div class="right">
 				<a class="active" href="/login">Log in</a>
+				<a><img class='user-icon' onclick="window.location.href='/login'" src="/images/icon/login.png"></a>
 			</div>
 		</header>
 		<section>
 			<div class="container">
-                <div class="box one center ground padding-10">
-                	<h2>Catálogo de produtos</h2>
+                <div class="box one center ground padding-10 margin-top-15">
+                	<h2 class="box one padding-10">Catálogo de produtos</h2>
 					<form id="product-catalog-filter-form" class="box one ground">
 						<input type="hidden" name="location" value="product-catalog">
 						<input type="text" name="code" class="btn-generic-big" placeholder="Cód" autocomplete="off">
@@ -22,11 +23,6 @@
 							<% for(i in productColors){ %>
 								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
 							<% } %>
-						</select>
-						<select name="brand" class="btn-generic-big">
-							<option value="">Marca do Produto</option>
-							<option value="Sem marca">Sem marca</option>
-							<option value="J.A Rio Militar">J.A Rio Militar</option>
 						</select>
 						<input type="submit" class="btn-generic-big bold" value="Filtrar">
 					</form>
@@ -47,5 +43,8 @@
 		<script src="/javascripts/scripts/product/view/main.js"></script>
 		<script src="/javascripts/scripts/product/controller/main.js"></script>
 		<script src="/javascripts/scripts/product/controller/catalog.js"></script>
+
+		<script src="/javascripts/scripts/product/controller/catalog.js"></script>
+		<script src="/javascripts/scripts/product/view/catalog.js"></script>
 	</footer>
 </html>
