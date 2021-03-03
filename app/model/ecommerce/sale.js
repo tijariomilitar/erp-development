@@ -59,6 +59,11 @@ Sale.updateStatus = async (sale) => {
 	return db(query);
 };
 
+Sale.changeStatus = async (sale) => {
+	let query = "UPDATE cms_wt_erp.ecommerce_sale SET status='"+sale.status+"' WHERE id='"+sale.id+"';";
+	return db(query);
+};
+
 Sale.filter = (periodStart, periodEnd, status, params, values) => {
 	let query = lib.filterByLikeAndByPeriodAndByStatus(periodStart, periodEnd, params, values, "datetime", "status", status, "cms_wt_erp", "ecommerce_sale", "datetime", "ASC");
 	return db(query);

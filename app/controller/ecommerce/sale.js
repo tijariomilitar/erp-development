@@ -43,6 +43,18 @@ const saleController = {
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 		};
 	},
+	manage: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','log-pac','COR-GER'])){
+			return res.redirect('/');
+		};
+
+		try {
+			res.render('ecommerce/sale/manage', { user: req.user });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+		};
+	},
 	save: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass'])){
 			return res.redirect('/');
@@ -227,6 +239,25 @@ const saleController = {
 				sale.user_id = req.user.id;
 				sale.user_name = req.user.name;
 				await Sale.updateStatus(sale);
+				res.send({ done: "Venda atualizada com sucesso!", sale: sale });
+			} else {
+				res.send({ msg: "Não foi possível atualizar o pedido, reinicie a página e tente novamente, caso o problema persista favor contatar o suporte!", sale: sale });
+			};
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
+		};
+	},
+	changeStatus: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','pro-man','log-pac'])){
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+		};
+
+		let sale = req.body.sale;
+
+		try {
+			if(sale.id && sale.status){
+				await Sale.changeStatus(sale);
 				res.send({ done: "Venda atualizada com sucesso!", sale: sale });
 			} else {
 				res.send({ msg: "Não foi possível atualizar o pedido, reinicie a página e tente novamente, caso o problema persista favor contatar o suporte!", sale: sale });

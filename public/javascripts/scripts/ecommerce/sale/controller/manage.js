@@ -13,41 +13,45 @@ if(Ecommerce.sale.controller.filter){
 			tracker: event.target.elements.namedItem("tracker").value
 		};
 
+		console.log(sale);
+
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		let sales = await Ecommerce.sale.filter(sale);
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
 		if(!sales) { return false };
 
+		// document.getElementById('ajax-loader').style.visibility = 'visible';
+		// let service_orders = await Ecommerce.service_orders.filter({code:""});
+		// document.getElementById('ajax-loader').style.visibility = 'hidden';
+		// if(!service_orders) { return false };
+
+		let service_orders = [];
+
 		document.getElementById("ecommerce-sale-show-box").style.display = "none";
 
-		Ecommerce.sale.view.triage.filter(sales);
+		Ecommerce.sale.view.manage.filter(sales, sale.status, service_orders);
 	});
 };
 
-Ecommerce.sale.controller.triage = {};
+Ecommerce.sale.controller.manage = {};
 
-Ecommerce.sale.controller.triage.show = async (id) => {
+Ecommerce.sale.controller.manage.show = async (id) => {
 	document.getElementById('ajax-loader').style.visibility = 'visible';
 	let sale = await Ecommerce.sale.findById(id);
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 	if(!sale) { return false };
 
-	Ecommerce.sale.view.triage.show(sale);
+	Ecommerce.sale.view.manage.show(sale);
 };
 
-Ecommerce.sale.controller.update = async (sale_id, status) => {
-	let r = confirm("Deseja realmente confirmar o embalo?");
-	if(r){
-		let sale = {
-			id: sale_id,
-			status: status
-		};
-
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		sale = await Ecommerce.sale.update(sale);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
-		if(!sale) { return false };
-		
-		Ecommerce.sale.controller.filter.submit.click();
+Ecommerce.sale.controller.manage.changeStatus = async (id) => {
+	let sale = {
+		id: id,
+		status: document.getElementById("ecommerce-sale-manage-change-status-select-id"+id).value
 	};
+
+	document.getElementById('ajax-loader').style.visibility = 'visible';
+	sale = await Ecommerce.sale.changeStatus(sale);
+	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	if(!sale) { return false };
 };
