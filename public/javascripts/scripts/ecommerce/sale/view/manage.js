@@ -27,6 +27,11 @@ Ecommerce.sale.view.manage.filter = (sales, status, service_orders) => {
 					html += "<div class='mobile-box three border padding-5 center margin-top-5'>"+sales[i].user_name+"</div>";
 					html += "<div class='mobile-box three border padding-5 center margin-top-5'>"+sales[i].status+"</div>";
 					html += "<div class='mobile-box three border padding-5 center margin-top-5'>"+sales[i].tracker+"</div>";
+					html += "<select id='ecommerce-sale-manage-change-status-select-id"+sales[i].id+"' class='mobile-box two border padding-5 center margin-top-5'>";
+						// html += "<option value='Ag. Informações'>Ag. Informações</option>";
+						html += "<option value='Cancelada'>Cancelada</option>";
+					html += "</select>";
+					html += "<button class='mobile-box two border submit-generic padding-5 center margin-top-5' onclick='Ecommerce.sale.controller.manage.changeStatus("+sales[i].id+")'>Atualizar status</button>";
 					html += "</div>";
 				html += "</div>";
 			};
@@ -76,6 +81,37 @@ Ecommerce.sale.view.manage.filter = (sales, status, service_orders) => {
 						html += "<option value='"+service_orders[j].id+"'>"+service_orders[i].code+"</option>";
 						html += "</select>";
 					};
+					html += "</div>";
+				html += "</div>";
+			};
+		} else if(status == "Cancelada"){
+			html += "<div class='box one container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
+				html += "<input class='mobile-box four padding-5 margin-top-5 margin-bottom-5 border center' placeholder='Código da OS'>";
+				html += "<div class='mobile-box four padding-5 margin-top-5 margin-bottom-5 border center'>Nova OS</div>";
+				html += "<select class='mobile-box four padding-5 margin-top-5 margin-bottom-5 border center'>";
+				html += "</select>";
+				html += "<div class='mobile-box four padding-5 margin-top-5 margin-bottom-5 border center'>OK</div>";
+			html += "</div>";
+			for(let i in sales){
+				html += "<div class='box one container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
+					// html += "<div class='mobile-box twelve padding-5 margin-top-5 center'><input type='checkbox' name='Ecommerce-sale-os-checkbox' value='1'></div>";
+					html += "<div class='mobile-box three border padding-5 center margin-top-5 tbl-show-link nowrap' onclick='Ecommerce.sale.controller.manage.show(`"+sales[i].id+"`)'><h4>"+sales[i].code+"</h4></div>";
+					html += "<div class='mobile-box two border padding-5 center margin-top-5'>"+sales[i].customer_name+"</div>";
+					html += "<div class='mobile-box two border padding-5 center margin-top-5'>"+sales[i].customer_user+"</div>";
+					html += "<div class='mobile-box two border padding-5 center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
+					html += "<div class='mobile-box three border padding-5 center margin-top-5'>"+sales[i].user_name+"</div>";
+					html += "<div class='mobile-box three border padding-5 center margin-top-5'>"+sales[i].status+"</div>";
+					html += "<div class='mobile-box three border padding-5 center margin-top-5'>"+sales[i].tracker+"</div>";
+					// html += "<select id='ecommerce-sale-manage-change-status-select-id"+sales[i].id+"' class='mobile-box two border padding-5 center margin-top-5'>";
+						// html += "<option value='Ag. Informações'>Ag. Informações</option>";
+						// html += "<option value='Cancelada'>Cancelada</option>";
+					// html += "</select>";
+					// html += "<button class='mobile-box two border submit-generic padding-5 center margin-top-5' onclick='Ecommerce.sale.controller.manage.changeStatus("+sales[i].id+")'>Atualizar status</button>";
+					// for(let j in service_orders){
+					// 	html += "<select id='ecommerce-sale-manage-change-status-select-id"+sales[i].id+"' class='mobile-box two border padding-5 center margin-top-5'>";
+					// 	html += "<option value='"+service_orders[j].id+"'>"+service_orders[i].code+"</option>";
+					// 	html += "</select>";
+					// };
 					html += "</div>";
 				html += "</div>";
 			};
