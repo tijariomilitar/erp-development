@@ -44,7 +44,7 @@ const saleController = {
 		};
 	},
 	manage: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','pro-man','log-pac','COR-GER'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','log-pac'])){
 			return res.redirect('/');
 		};
 
@@ -57,7 +57,7 @@ const saleController = {
 	},
 	save: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
 		let sale = req.body.sale;
@@ -249,11 +249,13 @@ const saleController = {
 		};
 	},
 	changeStatus: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','pro-man','log-pac'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
 		let sale = req.body.sale;
+		sale.user_id = req.user.id;
+		sale.user_name = req.user.name;
 
 		try {
 			if(sale.id && sale.status){
@@ -336,6 +338,38 @@ const saleController = {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
 		};
+	},
+	service_order: {
+		save: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm','adm-man'])){
+				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			};
+
+			let service_order = {
+				date: new Date().getTime(),
+				datetime: lib.datetimeToTimestamp(req.body.service_order.datetime),
+				code: req.body.service_order.code,
+				sales: req.body.service_order.sales,
+				sale_amount: req.body.service_order.sale_amount
+			};
+
+			try {
+				let row = await Sale.service_order.save(service_order);
+				service_order.id = row.insertId;
+
+				for(let i in service_order.sales){
+					service_order.sales[i].os = service_order.code;
+					service_order.sales[i].status = "Enviado";
+					await Sale.service_order.sale.add(service_order.id, service_order.sales[i].id);
+					await Sale.service_order.sale.update(service_order.sales[i]);
+				};
+
+				res.send({ done: "OS cadastrada com sucesso!", service_order: service_order });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
+			};
+		}
 	}
 };
 

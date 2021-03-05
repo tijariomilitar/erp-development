@@ -11,8 +11,8 @@ router.post('/sale/save', saleController.save);
 router.get('/sale/id/:id', saleController.findById);
 router.post('/sale/update', saleController.update);
 router.post('/sale/changeStatus', saleController.changeStatus);
-
 router.post('/sale/filter', saleController.filter);
 
+router.post('/sale/service-order/save', saleController.service_order.save);
 
 module.exports = router;

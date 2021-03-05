@@ -35,6 +35,8 @@ Ecommerce.sale.controller.manage.show = async (id) => {
 	if(!sale) { return false };
 
 	Ecommerce.sale.view.manage.show(sale);
+
+	document.getElementById('ecommerce-sale-os-create-form').style.display = "none";
 };
 
 Ecommerce.sale.controller.manage.changeStatus = async (id) => {
